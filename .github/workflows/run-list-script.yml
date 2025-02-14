@@ -1,0 +1,29 @@
+name: Run list.sh in Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        run: |
+          docker version
+
+      - name: Build Docker Image
+        run: |
+          docker build --platform=linux/amd64 -t my-list-script .
+
+      - name: Run Container
+        run: |
+          docker run --rm my-list-script
